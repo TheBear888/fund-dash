@@ -1,3 +1,5 @@
+💁声明:改项目大部分由ai完成,部分功能还有待完善和更新,后续会持续更新、改进代!!!
+
 💎 FundMaster Pro - 全资产穿透监控助手
 <img width="1280" height="649" alt="image" src="https://github.com/user-attachments/assets/0db4c4a2-ff98-4061-8e51-f3a806645b23" />
 
