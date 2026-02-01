@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FundMaster Pro - 穿透版</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>💎 全资产穿透监控</h1>
+            <p>基于实时行情与季度重仓数据计算</p>
+        </header>
+
+        <div class="dashboard">
+            <div class="card highlight-card">
+                <span>今日预估盈亏</span>
+                <h3 id="day-profit">0.00</h3>
+            </div>
+            <div class="card">
+                <span>持仓累计盈亏</span>
+                <h3 id="total-profit">0.00</h3>
+            </div>
+        </div>
+
+        <div class="action-bar">
+            <button id="refresh-btn" class="btn btn-blue">🔄 刷新</button>
+            <button id="analyze-btn" class="btn btn-green">🔍 开启深度穿透</button>
+            <button id="add-btn" class="btn btn-blue">➕ 添加</button>
+        </div>
+
+        <div id="loading-overlay" class="loading-box" style="display: none;">
+            <div class="spinner"></div>
+            <p id="loading-text">正在分析底层资产...</p>
+        </div>
+
+        <div class="list-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>基金详情</th>
+                        <th>估值涨跌</th>
+                        <th>盈亏明细</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="fund-list"></tbody>
+            </table>
+        </div>
+
+        <div id="analysis-panel" class="analysis-section" style="display: none;">
+            <div class="chart-box">
+                <div class="chart-header">
+                    <h4>📊 持仓股票 Top 10 (加权穿透)</h4>
+                    <button onclick="document.getElementById('analysis-panel').style.display='none'" class="close-small">收起</button>
+                </div>
+                <div style="position: relative; height: 300px;">
+                    <canvas id="stockPieChart"></canvas>
+                </div>
+                <div id="stock-legend" class="custom-legend"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="chartModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <h3 id="chartTitle">--</h3>
+            <div id="lineChart" style="width: 100%; height: 280px;"></div>
+            <button onclick="closeChart()" class="btn btn-gray" style="width:100%; margin-top:10px">关闭</button>
+        </div>
+    </div>
+
+    <div id="addModal" class="modal" style="display: none;">
+        <div class="modal-box">
+            <h3>添加持仓</h3>
+            <div class="input-group"><label>基金代码</label><input type="text" id="inp-code" placeholder="如 005918"></div>
+            <div class="input-group"><label>份额</label><input type="number" id="inp-share" placeholder="100.0"></div>
+            <div class="input-group"><label>成本</label><input type="number" id="inp-cost" placeholder="1.2345"></div>
+            <div class="modal-btns">
+                <button id="modal-cancel" class="btn btn-gray">取消</button>
+                <button id="modal-save" class="btn btn-blue">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
