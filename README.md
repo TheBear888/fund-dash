@@ -1,4 +1,4 @@
-<img width="1280" height="649" alt="image" src="https://github.com/user-attachments/assets/34bebb95-2946-4a9b-823f-c64c6f8b7681" />💎 FundMaster Pro - 全资产穿透监控助手
+💎 FundMaster Pro - 全资产穿透监控助手
 <img width="1280" height="649" alt="image" src="https://github.com/user-attachments/assets/0db4c4a2-ff98-4061-8e51-f3a806645b23" />
 
 
