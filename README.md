@@ -1,5 +1,6 @@
-💎 FundMaster Pro - 全资产穿透监控助手
-![Uploading image.png…]()
+<img width="1280" height="649" alt="image" src="https://github.com/user-attachments/assets/34bebb95-2946-4a9b-823f-c64c6f8b7681" />💎 FundMaster Pro - 全资产穿透监控助手
+<img width="1280" height="649" alt="image" src="https://github.com/user-attachments/assets/0db4c4a2-ff98-4061-8e51-f3a806645b23" />
+
 
 这是一个专为基金投资者设计的实时估值监控与穿透分析工具。通过简单的基金代码输入，即可实现对持仓盈亏的毫秒级追踪，并能一键“看透”基金背后的重仓股票分布。
 
