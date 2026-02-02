@@ -1,31 +1,36 @@
-# 1. 基础镜像：官方多架构python3.10-slim，原生支持amd64/arm64/v8
+# 基础镜像：官方python3.10-slim 多架构镜像（原生支持AMD64/X86_64、ARM64/v8）
+# Docker会根据构建/运行的主机架构，自动拉取对应架构的镜像层，无需手动指定
 FROM python:3.10-slim
 
-# 2. 设置工作目录
+# 设置工作目录（容器内，双架构通用）
 WORKDIR /app
 
-# ========== 新增：ARM环境核心适配 - 安装系统依赖 ==========
-# 适配ARM64的编译/运行依赖，debian-slim镜像需先更新apt源
-# 安装后清理apt缓存，避免镜像体积膨胀
+# 安装双架构通用的系统依赖：编译依赖(gcc/libc6-dev)
+# Debian/Ubuntu的ARM64/AMD64源中，这些包名/依赖完全一致，无需区分架构
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     libc6-dev \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*  # 强制清理apt缓存，减少镜像体积
 
-# 3. 复制依赖文件
+# 复制项目依赖文件（优先复制，利用Docker构建缓存，双架构缓存通用）
 COPY requirements.txt .
 
-# 4. 升级pip+安装依赖（国内清华镜像+无缓存，ARM环境同样适用）
-RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
+# 升级pip + 安装Python依赖（国内清华镜像加速，双架构pip自动适配）
+# 固化gunicorn=24.1.1（你指定的版本），无需在requirements.txt中额外添加
+RUN pip install --upgrade pip --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple && \
+    pip install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple gunicorn==24.1.1 -r requirements.txt
 
-# 5. 复制项目文件
+# 复制整个项目文件到容器工作目录
 COPY . .
 
-# 6. 暴露端口
+# 暴露服务端口：与启动命令的7861保持统一（双架构通用）
 EXPOSE 7861
 
-# 7. 启动命令：推荐用gunicorn（兼容你指定的24.1.1），比python app.py更稳定
-# 若坚持用原命令，可保留：CMD ["python", "app.py", "--host", "0.0.0.0"]
-# gunicorn参数说明：绑定0.0.0.0:5000，工作进程数4，适配多核心ARM/AMD服务器
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"]
+# 生产环境启动命令：gunicorn（稳定的WSGI服务器，双架构兼容）
+# -w 4：工作进程数（适配多核心服务器，ARM/AMD均可）
+# -b 0.0.0.0:5000：绑定所有网卡+7861端口（外部可访问）
+# app:app：Flask应用入口（固定格式：文件名(无py):Flask实例名）
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:7861", "app:app"]
+
+# 【备用】若不想用gunicorn，注释上面的CMD，启用下面的原生Python启动命令（双架构通用）
+# CMD ["python", "app.py", "--host", "0.0.0.0", "--port", "7861"]
