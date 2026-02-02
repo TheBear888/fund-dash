@@ -23,7 +23,7 @@ RUN pip install --upgrade pip && \
 COPY . .
 
 # 6. 暴露端口
-EXPOSE 7861
+EXPOSE 5000
 
 # 7. 启动命令：推荐用gunicorn（兼容你指定的24.1.1），比python app.py更稳定
 # 若坚持用原命令，可保留：CMD ["python", "app.py", "--host", "0.0.0.0"]
