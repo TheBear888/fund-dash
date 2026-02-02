@@ -1,5 +1,5 @@
 💁声明:改项目大部分由ai完成,部分功能还有待完善和更新,后续会持续更新、改进代!!!
-
+原二改作者：https://github.com/xvsingue/fund-dash
 💎 FundMaster Pro - 全资产穿透监控助手
 <img width="1280" height="649" alt="image" src="https://github.com/user-attachments/assets/0db4c4a2-ff98-4061-8e51-f3a806645b23" />
 
@@ -23,6 +23,9 @@
 
 2. 本地运行
 如果你想在本地进行二次开发：
+
+3.Docker一键部署
+docker run -d -p 5000:5000 --name fund-dash thebear888/fund-dash
 
 Bash
 # 克隆仓库
